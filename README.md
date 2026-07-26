@@ -174,7 +174,3 @@ MIT License - See LICENSE file for details
 
 For questions or collaboration, please open an issue on GitHub.
 
----
-
-**Hackathon**: Honeywell's Autonomous Building Management Challenge  
-**Challenge**: Create a live PoC that proves AI-driven buildings can achieve quantifiable energy savings while maintaining comfort.
