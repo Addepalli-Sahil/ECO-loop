@@ -16,9 +16,11 @@ __author__ = "Eco-Loop Team"
 from .energyplus_wrapper import EnergyPlusSimulation
 from .llm_agent import BuildingAgent
 from .controller import ClosedLoopController
+from .mcp_server import BuildingToolRegistry
 
 __all__ = [
     "EnergyPlusSimulation",
     "BuildingAgent", 
     "ClosedLoopController",
+    "BuildingToolRegistry",
 ]

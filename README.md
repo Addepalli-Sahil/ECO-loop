@@ -1,5 +1,13 @@
 # Eco-Loop Building Agents
 
+> Status: deployable dashboard + deterministic digital-twin demo. Live EnergyPlus
+> validation requires a local EnergyPlus installation and weather file; do not
+> represent the generated demo results as measured EnergyPlus output.
+
+An EnergyPlus 26.1 paired annual validation is included. See
+[VALIDATION_REPORT.md](VALIDATION_REPORT.md) for the measured energy comparison,
+model inputs, constraints, and reproduction commands.
+
 An autonomous closed-loop building management system that combines EnergyPlus building simulations with open-source LLMs (Large Language Models) to continuously optimize energy consumption while maintaining occupant comfort.
 
 ## Overview
@@ -62,6 +70,17 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### Dashboard (the file to deploy)
+
+The GitHub/Streamlit deployment entry point is **`streamlit_app.py`**. Run:
+
+```bash
+python main.py demo
+python -m streamlit run streamlit_app.py
+```
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the exact Streamlit Community Cloud steps.
+
 ### Running the Simulation
 
 ```bash
@@ -105,12 +124,12 @@ eco-loop-building-agents/
 
 ## Deliverables
 
-- [x] **GitHub Repository**: Fully functional source code
-- [ ] **Building Models**: Baseline and optimized `.idf` files
-- [ ] **Savings Dashboard**: Visual comparison of baseline vs AI-optimized performance
-- [ ] **Architecture Document**: Technical explanation of tool-calling & control strategies
-- [ ] **PoC Video**: 3-minute demonstration of live closed-loop operation
-- [ ] **Presentation Slides**: Solution overview and results
+- [ ] **GitHub Repository**: Push after replacing the placeholder `origin` URL
+- [ ] **Building Models**: Baseline plus EnergyPlus-validated optimized `.idf` output
+- [x] **Savings Dashboard**: Deployable visual comparison based on saved JSON data
+- [x] **Architecture Document**: Technical documentation and custom tool registry
+- [ ] **PoC Video**: Requires a recording of a real EnergyPlus run
+- [ ] **Presentation Slides**: The supplied deck still needs project content and PDF export
 
 ## Evaluation Criteria
 

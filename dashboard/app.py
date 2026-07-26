@@ -18,6 +18,9 @@ import json
 from pathlib import Path
 import numpy as np
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RESULTS_DIR = PROJECT_ROOT / "results"
+
 # Page configuration
 st.set_page_config(
     page_title="Eco-Loop Building Agent Dashboard",
@@ -53,13 +56,43 @@ st.markdown('<p class="dashboard-title">🏢 Eco-Loop Building Agent Dashboard</
 st.markdown("**AI-Driven Autonomous Building Energy Optimization**")
 st.divider()
 
-# Load sample data or real results
+# Load generated demo data or EnergyPlus-derived results.  The dashboard never
+# fabricates a new random run on refresh; its KPIs are traceable to JSON files.
 @st.cache_data
 def load_simulation_data():
-    """Load simulation results from JSON or generate sample data"""
-    # Always generate sample data for visualization
-    # (Real data is loaded from metrics_log.json if detailed data needed)
-    return generate_sample_data()
+    """Load repository results, falling back to a clearly-labelled sample."""
+    metrics_path = RESULTS_DIR / "metrics_log.json"
+    report_path = RESULTS_DIR / "performance_report.json"
+    if metrics_path.exists():
+        try:
+            payload = json.loads(metrics_path.read_text(encoding="utf-8"))
+            required = {
+                "timestamps", "baseline_energy_kw", "optimized_energy_kw",
+                "pmv_baseline", "pmv_optimized", "ppd_baseline", "ppd_optimized",
+                "zone_temps_baseline", "zone_temps_optimized",
+            }
+            if required.issubset(payload):
+                report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.exists() else {}
+                return {
+                    "dates": pd.to_datetime(payload["timestamps"]),
+                    "baseline_energy": np.asarray(payload["baseline_energy_kw"], dtype=float),
+                    "optimized_energy": np.asarray(payload["optimized_energy_kw"], dtype=float),
+                    "pmv_baseline": np.asarray(payload["pmv_baseline"], dtype=float),
+                    "pmv_optimized": np.asarray(payload["pmv_optimized"], dtype=float),
+                    "ppd_baseline": np.asarray(payload["ppd_baseline"], dtype=float),
+                    "ppd_optimized": np.asarray(payload["ppd_optimized"], dtype=float),
+                    "zone_temps_baseline": np.asarray(payload["zone_temps_baseline"], dtype=float),
+                    "zone_temps_optimized": np.asarray(payload["zone_temps_optimized"], dtype=float),
+                    "source": report.get("data_source", "results/metrics_log.json"),
+                    "verification_note": report.get("verification_note", ""),
+                }
+        except (OSError, ValueError, KeyError) as error:
+            st.warning(f"Could not load results JSON: {error}")
+
+    data = generate_sample_data()
+    data["source"] = "in-memory sample (run `python main.py demo` to persist results)"
+    data["verification_note"] = ""
+    return data
 
 
 def generate_sample_data():
@@ -126,6 +159,9 @@ def generate_sample_data():
 
 
 data = load_simulation_data()
+st.caption(f"Data source: {data['source']}")
+if data["verification_note"]:
+    st.info(data["verification_note"])
 
 # ===== METRICS SECTION =====
 col1, col2, col3, col4 = st.columns(4)

@@ -1,37 +1,10 @@
-# Core Dependencies
-energyplus==23.2.0
-requests==2.31.0
-python-dotenv==1.0.0
-
-# LLM & Agent Framework
-ollama==0.0.10
-langchain==0.1.0
-pydantic==2.4.0
-
-# MCP Protocol
-mcp==0.1.0
-
-# Data & Analytics
-pandas==2.1.0
-numpy==1.24.0
-matplotlib==3.8.0
-plotly==5.17.0
-
-# Web Dashboard
-streamlit==1.28.0
-plotly==5.17.0
-
-# Utilities
-python-dateutil==2.8.2
-pytz==2023.3
-tqdm==4.66.0
-
-# Testing
-pytest==7.4.0
-pytest-cov==4.1.0
-pytest-mock==3.12.0
-
-# Development
-black==23.10.0
-flake8==6.1.0
-mypy==1.6.0
+# Dependencies needed by the demo, dashboard and GitHub/Streamlit deployment.
+# EnergyPlus itself is installed separately from energyplus.net; PyEnergyPlus
+# is bundled with that installation and is therefore deliberately not a pip
+# dependency.
+streamlit>=1.40
+pandas>=2.2
+numpy>=1.26
+plotly>=5.24
+requests>=2.31
+pydantic>=2.4
