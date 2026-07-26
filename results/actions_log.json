@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": "2026-07-26T22:44:51.606981",
+    "action_type": "setpoint_update",
+    "zone": "MAIN ZONE",
+    "baseline_value_c": 20.0,
+    "optimized_value_c": 19.5,
+    "rationale": "EnergyPlus-validated heating-setpoint setback scenario",
+    "status": "completed"
+  }
+]

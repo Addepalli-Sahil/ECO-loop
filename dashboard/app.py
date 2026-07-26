@@ -98,7 +98,7 @@ def load_simulation_data():
 def generate_sample_data():
     """Generate realistic sample simulation data"""
     # Baseline energy profile (typical office building over 365 days)
-    dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='H')
+    dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='h')
     hours_array = np.array([d.hour for d in dates])
     days_array = np.array([d.dayofweek for d in dates])
     months_array = np.array([d.month for d in dates])

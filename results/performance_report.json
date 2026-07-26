@@ -1,0 +1,18 @@
+{
+  "simulation_duration_hours": 8808,
+  "baseline_total_kwh": 12192.4924032122,
+  "optimized_total_kwh": 11692.916137124368,
+  "energy_saved_kwh": 499.57626608783175,
+  "percent_savings": 4.097408877254784,
+  "cost_per_kwh": 0.12,
+  "cost_savings": 59.949151930539806,
+  "avg_temperature_baseline": 21.147688851739996,
+  "avg_temperature_optimized": 20.813938951369536,
+  "avg_pmv_baseline": 0.059075540695999365,
+  "avg_pmv_optimized": -0.07442441945218517,
+  "avg_ppd_baseline": 14.590367773633458,
+  "avg_ppd_optimized": 16.929202295062172,
+  "data_source": "EnergyPlus 26.1.0 paired annual simulations",
+  "verification_note": "Energy values are from EnergyPlus hourly output. PMV/PPD values are a temperature-derived proxy because this selected example model does not emit Fanger comfort variables.",
+  "generated_at": "2026-07-26T22:44:51.606942"
+}
