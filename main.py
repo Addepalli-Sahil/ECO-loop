@@ -247,15 +247,18 @@ def launch_dashboard(args, logger):
     logger.info("Press Ctrl+C to stop the server")
     
     try:
+        # Use python -m streamlit instead of calling streamlit directly
+        # This works even if streamlit is not in PATH
         subprocess.run([
-            "streamlit", "run",
+            sys.executable, "-m", "streamlit", "run",
             str(dashboard_path),
             "--server.port", str(args.port),
             "--logger.level=error"
         ])
         return 0
-    except FileNotFoundError:
-        logger.error("Streamlit not found. Install with: pip install streamlit")
+    except Exception as e:
+        logger.error(f"Failed to start dashboard: {e}")
+        logger.error("Make sure Streamlit is installed: pip install streamlit")
         return 1
     except KeyboardInterrupt:
         logger.info("\nDashboard stopped by user")
