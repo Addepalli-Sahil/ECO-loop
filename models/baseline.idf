@@ -1,0 +1,194 @@
+  Building,
+    Small Office - Baseline,    !- Name
+    0,                          !- North Axis {deg}
+    0.0,                        !- Latitude {deg}
+    0.0,                        !- Longitude {deg}
+    0,                          !- Elevation {m}
+    1,                          !- Terrain Indices
+    0.04,                       !- Loads Convergence Tolerance Value
+    15,                         !- Maximum HVAC Iterations
+    No,                         !- Do Zone Sizing Calculation
+    No,                         !- Do System Sizing Calculation
+    No,                         !- Do Plant Sizing Calculation
+    Yes,                        !- Run for Climate Design Days and Design Day
+    No;                         !- Run for Weather File Run Periods
+
+  SurfaceConvectionAlgorithm:Inside,
+    TARP;                       !- Algorithm
+
+  SurfaceConvectionAlgorithm:Outside,
+    DOE-2;                      !- Algorithm
+
+  Zone,
+    Zone1,                      !- Name
+    0.0,                        !- Direction of Relative North {deg}
+    0.0,                        !- X Origin {m}
+    0.0,                        !- Y Origin {m}
+    0.0,                        !- Z Origin {m}
+    1,                          !- Type
+    1.0,                        !- Multiplier
+    3.0,                        !- Ceiling Height {m}
+    200.0,                      !- Volume {m3}
+    100.0,                      !- Floor Area {m2}
+    ,                           !- Zone Inside Convection Algorithm
+    ,                           !- Zone Outside Convection Algorithm
+    No;                         !- Part of Total Floor Area
+
+  Zone,
+    Zone2,                      !- Name
+    0.0,                        !- Direction of Relative North {deg}
+    10.0,                       !- X Origin {m}
+    0.0,                        !- Y Origin {m}
+    0.0,                        !- Z Origin {m}
+    1,                          !- Type
+    1.0,                        !- Multiplier
+    3.0,                        !- Ceiling Height {m}
+    150.0,                      !- Volume {m3}
+    75.0,                       !- Floor Area {m2}
+    ,                           !- Zone Inside Convection Algorithm
+    ,                           !- Zone Outside Convection Algorithm
+    No;                         !- Part of Total Floor Area
+
+  Zone,
+    Zone3,                      !- Name
+    0.0,                        !- Direction of Relative North {deg}
+    0.0,                        !- X Origin {m}
+    10.0,                       !- Y Origin {m}
+    0.0,                        !- Z Origin {m}
+    1,                          !- Type
+    1.0,                        !- Multiplier
+    3.0,                        !- Ceiling Height {m}
+    150.0,                      !- Volume {m3}
+    75.0,                       !- Floor Area {m2}
+    ,                           !- Zone Inside Convection Algorithm
+    ,                           !- Zone Outside Convection Algorithm
+    No;                         !- Part of Total Floor Area
+
+  !- ===== DESIGN DAYS =====
+  RunPeriodControl:DaylightSavingTime,
+    2nd Sunday in March,        !- Start Date
+    1st Sunday in November;     !- End Date
+
+  RunPeriod,
+    Run Period,                 !- Name
+    1,                          !- Begin Month
+    1,                          !- Begin Day
+    12,                         !- End Month
+    31,                         !- End Day
+    ,                           !- Day Type for Start Day
+    Yes,                        !- Use Weather File Holidays and Special Days
+    Yes,                        !- Use Weather File Daylight Saving Period
+    No,                         !- Apply Weekend Holiday Rule
+    Yes,                        !- Use Weather File Rain Indicators
+    Yes;                        !- Use Weather File Snow Indicators
+
+  !- ===== SCHEDULE DEFINITIONS =====
+  Schedule:Constant,
+    Heating Setpoint Schedule,  !- Name
+    20.0;                       !- Hourly Value
+
+  Schedule:Constant,
+    Cooling Setpoint Schedule,  !- Name
+    24.0;                       !- Hourly Value
+
+  Schedule:Constant,
+    Zone Occupancy Schedule,    !- Name
+    0.5;                        !- Hourly Value
+
+  Schedule:Constant,
+    Lights Schedule,            !- Name
+    0.7;                        !- Hourly Value
+
+  Schedule:Constant,
+    Plug Load Schedule,         !- Name
+    0.5;                        !- Hourly Value
+
+  !- ===== THERMOSTAT CONTROL =====
+  ThermostatSetpoint:DualSetpoint,
+    Zone1 Thermostat,           !- Name
+    Heating Setpoint Schedule,  !- Heating Setpoint Temperature Schedule Name
+    Cooling Setpoint Schedule;  !- Cooling Setpoint Temperature Schedule Name
+
+  ZoneControl:Thermostat,
+    Zone1 Control,              !- Name
+    Zone1,                       !- Zone or ZoneList Name
+    Zone Control Type Schedule, !- Control Type Schedule Name
+    ThermostatSetpoint:DualSetpoint,  !- Control 1 Object Type
+    Zone1 Thermostat;           !- Control 1 Name
+
+  !- ===== PEOPLE =====
+  People,
+    Zone1 People,               !- Name
+    Zone1,                       !- Zone or ZoneList Name
+    Zone Occupancy Schedule,    !- Number of People Schedule Name
+    People,                     !- Number of People Calculation Method
+    50.0,                       !- Number of People
+    ,                           !- People per Zone Floor Area {person/m2}
+    ,                           !- Zone Floor Area per Person {m2/person}
+    0.3,                        !- Fraction Radiant
+    ,                           !- Sensible Heat Fraction
+    ;                           !- Activity Level Schedule Name
+
+  !- ===== LIGHTING =====
+  Lights,
+    Zone1 Lights,               !- Name
+    Zone1,                       !- Zone or ZoneList Name
+    Lights Schedule,            !- Schedule Name
+    LightingLevel,              !- Design Size Calculation Method
+    5000.0,                     !- Lighting Level {W}
+    ,                           !- Watts per Zone Floor Area {W/m2}
+    ,                           !- Watts per Person {W/person}
+    0.0,                        !- Return Air Fraction
+    0.5,                        !- Fraction Radiant
+    0.2,                        !- Fraction Visible
+    1.0,                        !- Fraction Replaceable
+    ,                           !- End-Use Subcategory
+    No;                         !- Return Air Fraction Calculated from Plenum Temperature
+
+  !- ===== EQUIPMENT =====
+  ElectricEquipment,
+    Zone1 Equipment,            !- Name
+    Zone1,                       !- Zone or ZoneList Name
+    Plug Load Schedule,         !- Schedule Name
+    EquipmentLevel,             !- Design Size Calculation Method
+    3000.0,                     !- Design Size Calculation Method Value
+    ,                           !- Watts per Zone Floor Area {W/m2}
+    ,                           !- Watts per Person {W/person}
+    0.0,                        !- Fraction Latent
+    0.5,                        !- Fraction Radiant
+    0.0;                        !- Fraction Lost
+
+  !- ===== INFILTRATION =====
+  ZoneInfiltration:DesignFlowRate,
+    Zone1 Infiltration,         !- Name
+    Zone1,                       !- Zone or ZoneList Name
+    Infiltration Schedule,      !- Schedule Name
+    Flow/ExteriorArea,          !- Design Flow Rate Calculation Method
+    ,                           !- Design Flow Rate {m3/s}
+    ,                           !- Flow per Zone Floor Area {m3/s-m2}
+    0.00005,                    !- Flow per Exterior Surface Area {m3/s-m2}
+    ,                           !- Air Changes per Hour {1/hr}
+    1.0,                        !- Constant Term Coefficient
+    0.0,                        !- Temperature Term Coefficient
+    0.0,                        !- Velocity Term Coefficient
+    0.0;                        !- Velocity Squared Term Coefficient
+
+  Schedule:Constant,
+    Infiltration Schedule,      !- Name
+    1.0;                        !- Hourly Value
+
+  !- ===== HVAC SYSTEM =====
+  HVACTemplate:Thermostat,
+    All Zones,                  !- Name
+    20.0,                       !- Heating Setpoint {C}
+    24.0;                       !- Cooling Setpoint {C}
+
+  !- Note: This is a minimal IDF file for demonstration purposes.
+  !- A complete simulation would include:
+  !- - Surfaces (walls, roof, floor with construction definitions)
+  !- - Windows with frames and shading
+  !- - Air walls between zones
+  !- - Complete HVAC system with equipment sizing
+  !- - Design days and weather file reference
+  !- - EMS/actuators for AI control integration
+  !- This template shows the structure for demonstrating the Eco-Loop system.
